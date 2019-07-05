@@ -1,0 +1,46 @@
+th.column-icon,
+td.column-icon {
+	text-align: center !important;
+	width: 100px;
+	color: #e98787
+}
+th.column-name,
+td.column-name {
+	text-align: center !important;
+  	width: 200px;
+}
+.accordianTitle {
+	margin-bottom: 12px;
+	font-size: 12pt !important;
+	
+}
+.accordianItem {
+	margin-bottom: 12px;
+	font-size: 11pt !important;
+	
+}
+.compTable .rt-tbody {
+	font-size: 9pt !important;
+	z-index: 5;
+	text-align: center !important;
+}
+.compTable .-header {
+	font-size: 9pt !important;
+	padding-top: 0px !important;
+	padding-bottom: 10px; 
+	z-index: 6;
+	text-align: center !important;
+}
+.comptablehead {
+	text-align: left !important;
+}
+.cointable .rt-tbody {
+	font-size: 9pt !important;
+	z-index: 5;
+	text-align: center !important;
+}
+.cointable .-header {
+	font-size: 9pt !important;
+	text-align: center !important;
+	
+}

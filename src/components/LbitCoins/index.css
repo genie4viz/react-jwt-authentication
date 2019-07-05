@@ -1,0 +1,26 @@
+.Selector {
+	text-align: left !important;
+	z-index: 99999;
+	display: inline-block;
+	width:100px !important;
+}
+.lbitcoinTable{
+	/* overflow-x: scroll !important;
+	min-width: 500px !important; */
+	font-size: 8pt !important;
+}
+.lbitcoinTable .rt-tbody {
+	z-index: 5;
+	text-align: center !important;
+	font-size: 9pt !important;
+}
+.lbitcoinTable .-header {
+	font-size: 8pt !important;
+	padding-top: 0px !important;
+	padding-bottom: 10px; 
+	z-index: 6;
+	text-align: center !important;
+}
+.tablehead {
+	text-align: left !important;
+}

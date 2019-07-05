@@ -71,13 +71,17 @@ const HomePage = ({ children }) => {
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>ICOS/IEOS</span>
             </Menu.Item>
-            <Menu.Item key='stable'>
-              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>STABLECOINS</span>
+            <Menu.Item key='stablecoins'>
+              <Link to='/stablecoins'>
+                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+                <span style={{ fontSize: '8pt' }}>STABLECOINS</span>
+              </Link>
             </Menu.Item>
-            <Menu.Item key='lbitcoin'>
-              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>
+            <Menu.Item key='lbitcoins'>
+              <Link to='/lbitcoins'>
+                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+                <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>
+              </Link>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key='networks' disabled>
@@ -93,9 +97,11 @@ const HomePage = ({ children }) => {
               </span>
             }
           >
-            <Menu.Item key='compare'>
-              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>
+            <Menu.Item key='comparison'>
+              <Link to='/comparison'>
+                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+                <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key='liquidity' disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
@@ -111,15 +117,16 @@ const HomePage = ({ children }) => {
             <span style={{ fontSize: '8pt' }}>ALERTS</span>
           </Menu.Item>
           <Menu.Item key='dictionary'>
-            <Icon type='caret-right' />
-            <span style={{ fontSize: '8pt' }}>DICTIONARY</span>
+            <Link to='/dictionary'>
+              <Icon type='caret-right' />
+              <span style={{ fontSize: '8pt' }}>DICTIONARY</span>
+            </Link>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
         <CustomHeader />
-        <Content>{children}</Content>
-        <Footer>Footer</Footer>
+        <Content>{children}</Content>        
       </Layout>
     </Layout>
   )

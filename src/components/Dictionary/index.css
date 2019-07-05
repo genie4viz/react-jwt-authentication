@@ -1,0 +1,8 @@
+.Selector {
+	z-index: 99999;
+	margin-bottom: 10px;
+	width: 200px;
+}
+.dictionaryTable .rt-td {
+	text-align: left;
+}

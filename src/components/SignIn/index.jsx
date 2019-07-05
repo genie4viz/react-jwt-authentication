@@ -6,7 +6,7 @@ import { authenticateUser } from '../../modules/Auth';
 import back from '../../static/back.png'
 import logo from '../../static/logo_beta_6.svg'
 
-const LoginForm = () => {
+const SignIn = () => {
   const [submitted, setSubmitted] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -156,4 +156,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default SignIn
