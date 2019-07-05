@@ -1,9 +1,54 @@
-import React from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
+import config from 'config'
+import { Link, Redirect } from 'react-router-dom'
+
 import back from '../../static/back.png'
 import logo from '../../static/logo_beta_6.svg'
+import './index.css'
 
 const LoginForm = () => {
+  const [submitted, setSubmitted] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [success, setSuccess] = useState(false)
+
+  const handleSubmit = () => {
+    e.preventDefault()
+    setSubmitted(true)
+  }
+  const handleEmail = e => {
+    setEmail(e.target.value)
+  }
+
+  const handlePassword = e => {
+    setPassword(e.target.value)
+  }
+
+  useEffect(
+    () => {
+      if (!submitted) return
+      setSubmitted(false)
+      const headers = new Headers()
+      headers.append('Content-Type', 'application/json')
+      headers.append('accept', 'application/json')
+      fetch(`${config.apiUrl}/auth/login`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ email: email, password: password })
+      })
+        .then(response => response.json())
+        .then(data => {          
+          if (data.message !== 'Auth failed') {            
+            localStorage.setItem('user', JSON.stringify(data))
+            setSuccess(true)
+          } else {
+            message.warning('Wrong email and/or password!')
+          }
+        })
+    },
+    [submitted]
+  )
   return (
     <div
       className='custom'
@@ -25,15 +70,17 @@ const LoginForm = () => {
         <div className='row' style={{ textAlign: 'center', marginTop: '10vh' }}>
           <img src={logo} />
         </div>
-        <div className='row'>
-          <div className='col-sm-4 col-xs-1' />
+        <div
+          className='row'
+          style={{ display: 'flex', justifyContent: 'center' }}
+        >
           <div
             className='col-sm-4 col-xs-10'
             style={{
               padding: '40px 30px',
               background: 'white',
               borderRadius: '2px',
-              marginTop: '10vh'
+              marginTop: '6vh'
             }}
           >
             <div>
@@ -43,22 +90,38 @@ const LoginForm = () => {
               >
                 Sign in to start your session
               </h2>
-              
-              <Form className='login-form'>
+              <Form onSubmit={handleSubmit}>
                 <Form.Item>
-                  <Input prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder='Username' />
+                  <Input
+                    prefix={
+                      <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
+                    placeholder='Username'
+                  />
                 </Form.Item>
                 <Form.Item>
-                  <Input prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />} type='password' placeholder='Password'/>
+                  <Input
+                    prefix={
+                      <Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
+                    type='password'
+                    placeholder='Password'
+                  />
                 </Form.Item>
                 <Form.Item>
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
                 <Form.Item>
-                  <Button type='primary' htmlType='submit' className='login-form-button' block>Log in</Button>
+                  <Button className='sign-in-button' htmlType='submit' block>
+                    Sign In
+                  </Button>
                 </Form.Item>
                 <Form.Item>
-                  <a className='login-form-forgot' href=''>Forgot password</a>
+                  <div style={{ textAlign: 'center' }}>
+                    <a className='login-form-forgot' href=''>
+                      Forgot password?
+                    </a>
+                  </div>
                 </Form.Item>
               </Form>
             </div>

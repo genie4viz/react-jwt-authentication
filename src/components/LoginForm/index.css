@@ -1,0 +1,10 @@
+.sign-in-button {
+    background-color: #ec971f;
+    border-color: #ec971f;
+    color: white;
+}
+.sign-in-button:focus, .sign-in-button:hover {
+    color: white; 
+    background-color: #f0b768;
+    border-color: #ec971f;
+}
