@@ -5,7 +5,7 @@ import CustomHeader from '../CustomHeader'
 import logo from '../../static/main_logo.png'
 import './index.css'
 
-const { Footer, Sider, Content } = Layout
+const { Sider, Content } = Layout
 const { SubMenu } = Menu
 
 const HomePage = ({ children }) => {
@@ -56,32 +56,28 @@ const HomePage = ({ children }) => {
             style={{ height: '15px !important' }}
           >
             <Menu.Item key='cryptoassets' style={{ height: '15px !important' }}>
-              <Link to='/cryptoassets'>
-                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-                <span style={{ fontSize: '8pt' }}>ASSETS</span>
-              </Link>
+              <Link to='/cryptoassets' />
+              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+              <span style={{ fontSize: '8pt' }}>ASSETS</span>              
             </Menu.Item>
             <Menu.Item key='exchanges' style={{ height: '15px !important' }}>
-              <Link to='/exchanges'>
-                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-                <span style={{ fontSize: '8pt' }}>EXCHANGES</span>
-              </Link>
+              <Link to='/exchanges' />
+              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+              <span style={{ fontSize: '8pt' }}>EXCHANGES</span>             
             </Menu.Item>
             <Menu.Item key='icoieos' disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>ICOS/IEOS</span>
             </Menu.Item>
             <Menu.Item key='stablecoins'>
-              <Link to='/stablecoins'>
-                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-                <span style={{ fontSize: '8pt' }}>STABLECOINS</span>
-              </Link>
+              <Link to='/stablecoins' />
+              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+              <span style={{ fontSize: '8pt' }}>STABLECOINS</span>              
             </Menu.Item>
             <Menu.Item key='lbitcoins'>
-              <Link to='/lbitcoins'>
-                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-                <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>
-              </Link>
+              <Link to='/lbitcoins' />
+              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+              <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>              
             </Menu.Item>
           </SubMenu>
           <Menu.Item key='networks' disabled>
@@ -98,10 +94,9 @@ const HomePage = ({ children }) => {
             }
           >
             <Menu.Item key='comparison'>
-              <Link to='/comparison'>
-                <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-                <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>
-              </Link>
+              <Link to='/comparison' />
+              <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
+              <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>              
             </Menu.Item>
             <Menu.Item key='liquidity' disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
@@ -117,10 +112,9 @@ const HomePage = ({ children }) => {
             <span style={{ fontSize: '8pt' }}>ALERTS</span>
           </Menu.Item>
           <Menu.Item key='dictionary'>
-            <Link to='/dictionary'>
-              <Icon type='caret-right' />
-              <span style={{ fontSize: '8pt' }}>DICTIONARY</span>
-            </Link>
+            <Link to='/dictionary' />
+            <Icon type='caret-right' />
+            <span style={{ fontSize: '8pt' }}>DICTIONARY</span>            
           </Menu.Item>
         </Menu>
       </Sider>
