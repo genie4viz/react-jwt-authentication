@@ -1,5 +1,5 @@
-import React from 'react';
-import { Table, Divider, Tag } from 'antd';
+import React from 'react'
+import { Table, Divider, Tag } from 'antd'
 
 const columns = [
   {
@@ -75,10 +75,11 @@ const data = [
   }
 ];
 
-const CryptoAssets = (
+const CryptoAssets = () => (
   <div>
-    <Table dataSource={data} columns={columns} />;
+    <span>ABCDEF</span>
+    
   </div>
 )
 
-export default CryptoAssets;
+export default CryptoAssets

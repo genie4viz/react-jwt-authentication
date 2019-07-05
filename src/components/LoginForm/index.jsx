@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd'
+import { Checkbox, message } from 'antd'
 import config from 'config'
 import { Link, Redirect } from 'react-router-dom'
-
+import { authenticateUser } from '../../modules/Auth';
 import back from '../../static/back.png'
 import logo from '../../static/logo_beta_6.svg'
-import './index.css'
 
 const LoginForm = () => {
   const [submitted, setSubmitted] = useState(false)
@@ -13,11 +12,11 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const [success, setSuccess] = useState(false)
 
-  const handleSubmit = () => {
-    e.preventDefault()
+  const handleSubmit = e => {
+    e.preventDefault()    
     setSubmitted(true)
   }
-  const handleEmail = e => {
+  const handleEmail = e => {    
     setEmail(e.target.value)
   }
 
@@ -39,8 +38,8 @@ const LoginForm = () => {
       })
         .then(response => response.json())
         .then(data => {          
-          if (data.message !== 'Auth failed') {            
-            localStorage.setItem('user', JSON.stringify(data))
+          if (data.message === 'Auth successful') {
+            authenticateUser(JSON.stringify(data));            
             setSuccess(true)
           } else {
             message.warning('Wrong email and/or password!')
@@ -70,17 +69,15 @@ const LoginForm = () => {
         <div className='row' style={{ textAlign: 'center', marginTop: '10vh' }}>
           <img src={logo} />
         </div>
-        <div
-          className='row'
-          style={{ display: 'flex', justifyContent: 'center' }}
-        >
+        <div className='row'>
+          <div className='col-sm-4 col-xs-1' />
           <div
             className='col-sm-4 col-xs-10'
             style={{
               padding: '40px 30px',
               background: 'white',
               borderRadius: '2px',
-              marginTop: '6vh'
+              marginTop: '10vh'
             }}
           >
             <div>
@@ -90,44 +87,71 @@ const LoginForm = () => {
               >
                 Sign in to start your session
               </h2>
-              <Form onSubmit={handleSubmit}>
-                <Form.Item>
-                  <Input
-                    prefix={
-                      <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
-                    placeholder='Username'
+              <br />
+              <form name='form' onSubmit={handleSubmit}>
+                <div
+                  className={
+                    'form-group' + (submitted && !email ? ' has-error' : '')
+                  }
+                >
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Email'
+                    autoComplete='true'
+                    name='email'
+                    value={email}
+                    onChange={e => handleEmail(e)}
+                    style={{ borderRadius: '1px' }}
                   />
-                </Form.Item>
-                <Form.Item>
-                  <Input
-                    prefix={
-                      <Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
+                  {submitted && !email && (
+                    <div className='help-block'>Email is required</div>
+                  )}
+                </div>
+                <div
+                  className={
+                    'form-group' + (submitted && !password ? ' has-error' : '')
+                  }
+                >
+                  <input
                     type='password'
+                    className='form-control'
                     placeholder='Password'
+                    autoComplete='true'
+                    name='password'
+                    value={password}
+                    onChange={e => handlePassword(e)}
+                    style={{ borderRadius: '1px' }}
                   />
-                </Form.Item>
-                <Form.Item>
+                  {submitted && !password && (
+                    <div className='help-block'>Password is required</div>
+                  )}
+                </div>
+                <div className='form-check text-left'>                  
                   <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                <Form.Item>
-                  <Button className='sign-in-button' htmlType='submit' block>
+                </div>
+                <br />
+                <div className='form-group'>
+                  <button
+                    className='btn btn-warning'
+                    style={{ width: '100%', borderRadius: '0px' }}
+                  >
                     Sign In
-                  </Button>
-                </Form.Item>
-                <Form.Item>
-                  <div style={{ textAlign: 'center' }}>
-                    <a className='login-form-forgot' href=''>
-                      Forgot password?
-                    </a>
-                  </div>
-                </Form.Item>
-              </Form>
+                  </button>
+                </div>
+                <br />
+                <div className='text-center'>
+                  <Link to={`/forgot-password`}>
+                    <span style={{ color: '#455A64' }}>Forgot Password?</span>
+                  </Link>
+                </div>
+              </form>
             </div>
           </div>
+          <div className='col-sm-4 col-xs-1' />
         </div>
       </div>
+      {success && <Redirect to='/' />}
     </div>
   )
 }
