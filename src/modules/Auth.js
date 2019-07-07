@@ -46,3 +46,14 @@ export const getUserInfo = () => {
     return JSON.parse(localStorage.getItem("user"))
 }
 export const getToken = () => localStorage.getItem('token')
+
+export const setReceivedToken = token => {
+    localStorage.setItem('received_token', token)
+}
+
+export const getReceivedToken = () => {
+    return localStorage.getItem('received_token')
+}
+export const removeReceivedToken = () => {    
+    localStorage.setItem('received_token', 'unused')
+}

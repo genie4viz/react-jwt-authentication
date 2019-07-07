@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import config from "config"
 import { Link, Redirect } from "react-router-dom"
 import { Icon, message } from "antd"
+import { getReceivedToken, removeReceivedToken } from '../../modules/Auth'
+import { AppContext } from '../../contexts/AppContext'
 import back from "../../static/back.png"
 
-const ResetPassword = props => {
-  const [submitted, toSubmit] = useState(false)
-  const [email, setEmail] = useState("")
+const ResetPassword = () => {  
+  const { dispatch } = useContext(AppContext)
+  const recvToken = getReceivedToken()
+  const [submitted, setSubmit] = useState(false)  
   const [password, setPassword] = useState("")
   const [password1, setPassword1] = useState("")
-  const [success, setSuccess] = useState(false)
-
-  const recvToken = new URLSearchParams(props.location.search).get("token")
+  const [success, setSuccess] = useState(false)  
 
   const handlePassword = e => {
     if (e.target.value === "") {
@@ -27,14 +28,14 @@ const ResetPassword = props => {
   }
   const handleSubmit = e => {
     e.preventDefault()
-    toSubmit(true)
+    setSubmit(true)
   }
 
   const checkSubmit = () => (password != "" && password ==password1 ? true : false)
 
   useEffect(() => {
     if (!submitted) return
-    toSubmit(false)
+    setSubmit(false)
 
     if (checkSubmit()) {
       const headers = new Headers()
@@ -47,16 +48,21 @@ const ResetPassword = props => {
         body: JSON.stringify({ token: recvToken, password: password })
       })
         .then(response => response.json())
-        .then(data => {
-          if (data.message !== "Auth failed") {            
+        .then(data => {          
+          if (data.message !== "Auth failed") {
+            removeReceivedToken()
             setSuccess(true)
             message.success("Reset password process completed succesfully!")
+            dispatch({ type: 'CHANGE_RECVTOKEN', value: recvToken })
+            
           } else {
+            removeReceivedToken()
             message.warning(data.message)
+            dispatch({ type: 'CHANGE_RECVTOKEN', value: recvToken })
           }
         })
     } else {
-      message.warning("Password is required//Password must be same as Confirm Password")
+      message.warning("Password is required! Password must be same as Confirm Password")
     }
   }, [submitted])
 

@@ -44,8 +44,8 @@ const ForgotPassword = () => {
         body: JSON.stringify({ email: email })
       })
         .then(response => response.json())
-        .then(data => {
-          if (data.message !== "Auth failed") {            
+        .then(data => {          
+          if (data.message !== "Auth failed") {
             setSuccess(true)
             message.success(data.message)
           } else {
