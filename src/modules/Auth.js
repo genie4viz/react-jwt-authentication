@@ -1,5 +1,7 @@
 
-import config from 'config';
+
+import config from 'config'
+const jwtDecode = require('jwt-decode')
 
 export const authenticateUser = (userData, email) => {
     userData.email = email
@@ -8,34 +10,39 @@ export const authenticateUser = (userData, email) => {
 
 export const isUserAuthenticated = () => {
     if(localStorage.getItem('user') === null)
-        return false
-    return true
-    // const user = JSON.parse(localStorage.getItem("user"))
-    // const refToken = user.refreshToken;
-    // const headers = new Headers();
-    // headers.append('Content-Type', 'application/json');
-    // headers.append('accept', 'application/json');        
-    // fetch(`${config.apiUrl}/auth/refresh`, {
-    //     method: 'POST',
-    //     headers: headers,
-    //     body: JSON.stringify({ token: refToken})
-    // }).then(response => {
-    //     console.log(response, 'response')
-    //     if(response.ok) return response.json();
-    //     return null;
-    // }).then(data => {
-    //     console.log(data, 'from server')
-    //     if(!data) {
-    //         // here we logout user
-    //         return false;
-    //     }
-    //     localStorage.setItem('user', {
-    //         ...user,
-    //         refreshToken: data.refreshToken,
-    //         accessToken: data.accessToken
-    //     });
-    //     return true;
-    // });
+        return false    
+    try {
+        if (localStorage.getItem("user") && Number.parseInt(new Date().getTime() / 1000) - jwtDecode(JSON.parse(localStorage.getItem("user")).accessToken).exp < 0){
+          return true
+        }
+    }catch(err){
+        const user = JSON.parse(localStorage.getItem("user"))
+        const refToken = user.refreshToken;
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('accept', 'application/json');        
+        fetch(`${config.apiUrl}/auth/refresh`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({ token: refToken})
+        }).then(response => {
+            console.log(response, 'response')
+            if(response.ok) return response.json();
+            return null;
+        }).then(data => {
+            console.log(data, 'from server')
+            if(!data) {
+                // here we logout user
+                return false;
+            }
+            localStorage.setItem('user', {
+                ...user,
+                refreshToken: data.refreshToken,
+                accessToken: data.accessToken
+            });
+            return true;
+        });
+    }
 }
 
 export const deauthenticateUser = () => {
