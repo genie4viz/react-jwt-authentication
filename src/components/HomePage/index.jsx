@@ -12,8 +12,11 @@ const HomePage = ({ renderProps, children }) => {
   const routeInfo = renderProps.location.pathname.substring(1, renderProps.location.pathname.length)
   const selectedMenuItem = routeInfo  
   
+  // const [sectionbyHeader, setSectionByHeader] = useState(null)
+  
   const onHeaderSectionClickHandler = section => {
     console.log(section)
+    // setSectionByHeader(section)
   }
 
   return (
@@ -50,7 +53,7 @@ const HomePage = ({ renderProps, children }) => {
           style={{ background: '#252525' }}
           defaultSelectedKeys={['markets_cryptoassets']}
           selectedKeys={[selectedMenuItem]}
-          defaultOpenKeys={['markets']}
+          defaultOpenKeys={['markets']}          
         >
           <SubMenu
             key='markets'

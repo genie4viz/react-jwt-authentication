@@ -13,10 +13,8 @@ const SignIn = () => {
   const [password, setPassword] = useState('')
   const [success, setSuccess] = useState(false)
 
-  useEffect(() => {
-    console.log('render from logout')
-    deauthenticateUser()
-  }, [])
+  useEffect(() => deauthenticateUser(), [])
+  
   const handleSubmit = e => {
     e.preventDefault()    
     setSubmitted(true)

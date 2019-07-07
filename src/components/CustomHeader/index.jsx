@@ -17,7 +17,7 @@ const innerMenu = () => {
         <Menu.Item key="1">
           <Link to="/login" style={{ margin: 3}}>
             Logout
-          </Link>          
+          </Link>
         </Menu.Item>      
       </Menu>    
   )
