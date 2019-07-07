@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import { Layout, Menu, Dropdown, Button } from "antd"
 import { getUserInfo } from "../../modules/Auth"
 import { useHeaders, numberWithCommasDecimals } from "../../utils"
@@ -7,19 +7,19 @@ const { Header } = Layout
 
 const innerMenu = () => {  
   const user_email = getUserInfo().email
-  return (
-    <Menu style={{  zIndex:'9999' }}>
-      <Menu.Item key="0">
-        <Link to="/" style={{ margin: 3}}>
-          {user_email}
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <Link to="/login" style={{ margin: 3}}>
-          Logout
-        </Link>
-      </Menu.Item>
-    </Menu>
+  return (    
+      <Menu style={{  zIndex:'9999' }}>
+        <Menu.Item key="0">
+          <Link to="/" style={{ margin: 3}}>
+            {user_email}
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="1">
+          <Link to="/login" style={{ margin: 3}}>
+            Logout
+          </Link>          
+        </Menu.Item>      
+      </Menu>    
   )
 }
 
