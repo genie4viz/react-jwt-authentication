@@ -48,8 +48,7 @@ const ResetPassword = props => {
       })
         .then(response => response.json())
         .then(data => {
-          if (data.message !== "Auth failed") {
-            data.email = email
+          if (data.message !== "Auth failed") {            
             setSuccess(true)
             message.success("Reset password process completed succesfully!")
           } else {

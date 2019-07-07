@@ -5,7 +5,7 @@ import { Icon, message } from "antd"
 import back from "../../static/back.png"
 
 const SignUp = props => {
-  const [submitted, toSubmit] = useState(false)
+  const [submitted, setSubmit] = useState(false)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -47,7 +47,7 @@ const SignUp = props => {
   }
   const handleSubmit = e => {
     e.preventDefault()
-    toSubmit(true)
+    setSubmit(true)
   }
 
   const checkSubmit = () =>
@@ -57,7 +57,7 @@ const SignUp = props => {
 
   useEffect(() => {
     if (!submitted) return
-    toSubmit(false)
+    setSubmit(false)
     if (checkSubmit()) {
       const headers = new Headers()
       headers.append("Content-Type", "application/json")

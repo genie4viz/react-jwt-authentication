@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Layout, Menu, Icon } from 'antd'
 import CustomHeader from '../CustomHeader'
@@ -8,7 +8,14 @@ import './index.css'
 const { Sider, Content } = Layout
 const { SubMenu } = Menu
 
-const HomePage = ({ children }) => {
+const HomePage = ({ renderProps, children }) => {
+  const routeInfo = renderProps.location.pathname.substring(1, renderProps.location.pathname.length)
+  const selectedMenuItem = routeInfo  
+  
+  const onHeaderSectionClickHandler = section => {
+    console.log(section)
+  }
+
   return (
     <Layout>
       <Sider
@@ -41,12 +48,12 @@ const HomePage = ({ children }) => {
           theme='dark'
           mode='inline'
           style={{ background: '#252525' }}
-          defaultSelectedKeys={['cryptoassets']}
-          selectedKeys={['cryptoassets']}
-          defaultOpenKeys={['sub0']}
+          defaultSelectedKeys={['markets_cryptoassets']}
+          selectedKeys={[selectedMenuItem]}
+          defaultOpenKeys={['markets']}
         >
           <SubMenu
-            key='sub0'
+            key='markets'
             title={
               <span>
                 <Icon type='caret-right' />
@@ -55,29 +62,29 @@ const HomePage = ({ children }) => {
             }
             style={{ height: '15px !important' }}
           >
-            <Menu.Item key='cryptoassets' style={{ height: '15px !important' }}>
-              <Link to='/cryptoassets' />
+            <Menu.Item key='markets_cryptoassets' style={{ height: '15px !important' }}>
+              <Link to='/markets_cryptoassets'  />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>ASSETS</span>              
+              <span style={{ fontSize: '8pt' }}>ASSETS</span>
             </Menu.Item>
-            <Menu.Item key='exchanges' style={{ height: '15px !important' }}>
-              <Link to='/exchanges' />
+            <Menu.Item key='markets_exchanges' style={{ height: '15px !important' }}>
+              <Link to='/markets_exchanges' />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>EXCHANGES</span>             
+              <span style={{ fontSize: '8pt' }}>EXCHANGES</span>
             </Menu.Item>
-            <Menu.Item key='icoieos' disabled>
+            <Menu.Item key='markets_icoieos' disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>ICOS/IEOS</span>
             </Menu.Item>
-            <Menu.Item key='stablecoins'>
-              <Link to='/stablecoins' />
+            <Menu.Item key='markets_stablecoins'>
+              <Link to='/markets_stablecoins' />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>STABLECOINS</span>              
+              <span style={{ fontSize: '8pt' }}>STABLECOINS</span>
             </Menu.Item>
-            <Menu.Item key='lbitcoins'>
-              <Link to='/lbitcoins' />
+            <Menu.Item key='markets_lbitcoins'>
+              <Link to='/markets_lbitcoins' />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>              
+              <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>
             </Menu.Item>
           </SubMenu>
           <Menu.Item key='networks' disabled>
@@ -85,7 +92,7 @@ const HomePage = ({ children }) => {
             <span style={{ fontSize: '8pt' }}>NETWORKS</span>
           </Menu.Item>
           <SubMenu
-            key='sub1'
+            key='labs'
             title={
               <span>
                 <Icon type='caret-right' />
@@ -93,12 +100,12 @@ const HomePage = ({ children }) => {
               </span>
             }
           >
-            <Menu.Item key='comparison'>
-              <Link to='/comparison' />
+            <Menu.Item key='labs_comparison'>
+              <Link to='/labs_comparison' />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>              
             </Menu.Item>
-            <Menu.Item key='liquidity' disabled>
+            <Menu.Item key='labs_liquidity' disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>LIQUIDITY</span>
             </Menu.Item>
@@ -114,13 +121,13 @@ const HomePage = ({ children }) => {
           <Menu.Item key='dictionary'>
             <Link to='/dictionary' />
             <Icon type='caret-right' />
-            <span style={{ fontSize: '8pt' }}>DICTIONARY</span>            
+            <span style={{ fontSize: '8pt' }}>DICTIONARY</span>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
-        <CustomHeader />
-        <Content>{children}</Content>        
+        <CustomHeader onHeaderSectionClick={onHeaderSectionClickHandler}/>
+        <Content>{children}</Content>
       </Layout>
     </Layout>
   )

@@ -9,6 +9,8 @@ import StableCoins from './components/StableCoins'
 import LbitCoins from './components/LbitCoins'
 import Comparison from './components/Comparison'
 import Dictionary from './components/Dictionary'
+import ForgotPassword from './components/ForgotPassword'
+import ResetPassword from './components/ResetPassword'
 
 import { isUserAuthenticated } from './modules/Auth'
 
@@ -16,26 +18,25 @@ const Routes = () => (
   <Router>
     <Switch>
       <Route path='/login' component={SignIn} />
-      <Route path='/'
-        render={() => (
-          <div>
-            { isUserAuthenticated()
-              ? <HomePage>                  
-                  <div>
-                    <Switch>                      
-                      <Route path='/cryptoassets' component={CryptoAssets} />
-                      <Route path='/exchanges' component={Exchanges} />
-                      <Route path='/stablecoins' component={StableCoins} />
-                      <Route path='/lbitcoins' component={LbitCoins} />
-                      <Route path='/comparison' component={Comparison} />
-                      <Route path='/dictionary' component={Dictionary} />
-                      <Redirect to='/cryptoassets' />
-                    </Switch>
-                  </div>
-                </HomePage>
-              : <Redirect to='/login' />
-            }
-          </div>
+      <Route path='/forgot-password' component={ForgotPassword} />
+      <Route path='/reset-password' component={ResetPassword} />
+      <Route path='/' 
+        render={(renderProps) => (            
+          isUserAuthenticated () 
+            ? <HomePage renderProps={renderProps}>
+                <div>
+                  <Switch>
+                    <Route path='/markets_cryptoassets' component={CryptoAssets} />
+                    <Route path='/markets_exchanges' component={Exchanges} />
+                    <Route path='/markets_stablecoins' component={StableCoins} />
+                    <Route path='/markets_lbitcoins' component={LbitCoins} />
+                    <Route path='/labs_comparison' component={Comparison} />
+                    <Route path='/dictionary' component={Dictionary} />
+                    <Redirect to='/markets_cryptoassets' />
+                  </Switch>
+                </div>
+              </HomePage>
+            : <Redirect to='/login' />
         )}
       />      
     </Switch>

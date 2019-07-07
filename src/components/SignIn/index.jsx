@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Checkbox, message } from 'antd'
 import config from 'config'
 import { Link, Redirect } from 'react-router-dom'
-import { authenticateUser } from '../../modules/Auth';
+import { authenticateUser, deauthenticateUser } from '../../modules/Auth'
 import back from '../../static/back.png'
 import logo from '../../static/logo_beta_6.svg'
 
@@ -11,6 +11,8 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [success, setSuccess] = useState(false)
+
+  deauthenticateUser()
 
   const handleSubmit = e => {
     e.preventDefault()    
@@ -39,7 +41,8 @@ const SignIn = () => {
         .then(response => response.json())
         .then(data => {          
           if (data.message === 'Auth successful') {
-            authenticateUser(JSON.stringify(data));            
+            console.log(data)
+            authenticateUser(data, email)
             setSuccess(true)
           } else {
             message.warning('Wrong email and/or password!')

@@ -1,16 +1,17 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { Layout, Menu, Dropdown, Button } from "antd"
+import { getUserInfo } from "../../modules/Auth"
 import { useHeaders, numberWithCommasDecimals } from "../../utils"
 const { Header } = Layout
 
 const innerMenu = () => {  
-  const username = JSON.parse(localStorage.getItem("user")).email;  
+  const user_email = getUserInfo().email
   return (
     <Menu style={{  zIndex:'9999' }}>
       <Menu.Item key="0">
         <Link to="/" style={{ margin: 3}}>
-          {username}
+          {user_email}
         </Link>
       </Menu.Item>
       <Menu.Item key="1">
@@ -47,14 +48,14 @@ const CustomHeader = ({onHeaderSectionClick}) => {
       >
         <div className="row" style={{marginTop:'15px', fontSize:'9pt', fontWeight: "500", justifyContent: 'space-around', lineHeight: 1.5}}>
             <div className="col-sm-2 col-md-2 col-lg-2">
-              <span style={{color: '#A1A1A1', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('cryptoassets')}>Assets&nbsp;&nbsp;</span>
-              <span style={{ fontWeight: "700", color: 'white', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('cryptoassets')}>
+              <span style={{color: '#A1A1A1', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('markets_cryptoassets')}>Assets&nbsp;&nbsp;</span>
+              <span style={{ fontWeight: "700", color: 'white', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('markets_cryptoassets')}>
                 {headers.dtra_active_assets}
               </span>
             </div>
             <div className="col-sm-2 col-md-2 col-lg-2">
-              <span style={{color: '#A1A1A1', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('exchanges')}>Exchanges&nbsp;&nbsp;</span>
-              <span style={{ fontWeight: '700', color: 'white', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('exchanges')}>
+              <span style={{color: '#A1A1A1', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('markets_exchanges')}>Exchanges&nbsp;&nbsp;</span>
+              <span style={{ fontWeight: '700', color: 'white', cursor: 'pointer'}} onClick={() => onHeaderSectionClick('markets_exchanges')}>
                 {headers.dtra_active_exchanges}
               </span>
             </div>
