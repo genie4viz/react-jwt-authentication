@@ -1,61 +1,61 @@
-import React, { useState, useEffect } from "react"
-import { loadReCaptcha, ReCaptcha } from "react-recaptcha-google"
-import config from "config"
-import { Link, Redirect } from "react-router-dom"
-import { Icon, message } from "antd"
+import React, { useState, useEffect } from "react";
+import { loadReCaptcha, ReCaptcha } from "react-recaptcha-google";
+import config from "config";
+import { Link, Redirect } from "react-router-dom";
+import { Icon, message } from "antd";
 
-import back from "../../static/back.png"
-import "./index.css"
+import back from "../../static/back.png";
+import "./index.css";
 
 const ForgotPassword = () => {
-  const [submitted, toSubmit] = useState(false)
-  const [email, setEmail] = useState("")
-  const [success, setSuccess] = useState(false)
+  const [submitted, toSubmit] = useState(false);
+  const [email, setEmail] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const handleEmail = e => {
-    if (e.target.value === "") {
-      message.warning("Email is required.")
+  const handleEmail = event => {
+    if (event.target.value === "") {
+      message.warning("Email is required.");
     }
-    setEmail(e.target.value)
-  }
-  const handleSubmit = e => {
-    e.preventDefault()
-    toSubmit(true)
-  }
+    setEmail(event.target.value);
+  };
+  const handleSubmit = event => {
+    event.preventDefault();
+    toSubmit(true);
+  };
 
-  loadReCaptcha()
-
-  useEffect(() => {
-    localStorage.removeItem("user")
-  }, [])
-
-  const checkSubmit = () => (email != "" ? true : false)
+  loadReCaptcha();
 
   useEffect(() => {
-    if (!submitted) return
-    toSubmit(false)
+    localStorage.removeItem("user");
+  }, []);
+
+  const checkSubmit = () => (email !== "" ? true : false);
+
+  useEffect(() => {
+    if (!submitted) return;
+    toSubmit(false);
     if (checkSubmit()) {
-      const headers = new Headers()
-      headers.append("Content-Type", "application/json")
-      headers.append("accept", "application/json")
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("accept", "application/json");
       fetch(`${config.apiUrl}/auth/password/reset`, {
         method: "POST",
         headers: headers,
         body: JSON.stringify({ email: email })
       })
         .then(response => response.json())
-        .then(data => {          
+        .then(data => {
           if (data.message !== "Auth failed") {
-            setSuccess(true)
-            message.success(data.message)
+            setSuccess(true);
+            message.success(data.message);
           } else {
-            message.warning("Wrong email and/or password!")
+            message.warning("Wrong email and/or password!");
           }
-        })
+        });
     } else {
-      message.warning("Email is required.")
+      message.warning("Email is required.");
     }
-  }, [submitted])
+  }, [submitted]);
 
   return (
     <div
@@ -138,7 +138,7 @@ const ForgotPassword = () => {
       </div>
       {success && <Redirect to="/login" />}
     </div>
-  )
-}
+  );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

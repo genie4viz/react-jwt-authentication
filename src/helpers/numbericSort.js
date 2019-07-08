@@ -4,5 +4,5 @@ export const numbericSort = (property) => {
     sortOrder = -1
     property = property.substr(1);
   }
-  return (a,b) => b[property]-a[property]  
+  return (prev, next) => next[property] - prev[property]  
 }

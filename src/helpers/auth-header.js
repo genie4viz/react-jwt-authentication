@@ -8,7 +8,7 @@ export function authHeader () {
     headers.append('cache-control', 'no-cache')
     headers.append('Content-Type', 'application/json')
     return headers
-  } catch (e) {
+  } catch (err) {
     return null
   }
 }

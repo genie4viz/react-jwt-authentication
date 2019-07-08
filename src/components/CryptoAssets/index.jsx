@@ -1,43 +1,48 @@
-import React, { useState, useEffect } from "react"
-import { Layout } from "antd"
+import React, { useState, useEffect } from "react";
+import { Layout } from "antd";
 // custom hook
-import { useAllCoins, numberWithExpressive, numberWithCommasDecimals } from "../../utils"
+import {
+  useAllCoins,
+  numberWithExpressive,
+  numberWithCommasDecimals
+} from "../../utils";
 
 // react-table
-import ReactTable from "react-table"
-import Select from "react-select"
-import Img from "react-image"
-import CustomTableHeader from "../CustomTableHeader"
-import loading from "../../static/loading.gif"
-import "./index.css"
+import ReactTable from "react-table";
+import Select from "react-select";
+import Img from "react-image";
+import CustomTableHeader from "../CustomTableHeader";
+import loading from "../../static/loading.gif";
+import "./index.css";
 
-const { Content } = Layout
-const options = [{ value: "0", label: "USD" }, { value: "1", label: "BTC" }, { value: "2", label: "ETH" }]
+const { Content } = Layout;
+const options = [
+  { value: "0", label: "USD" },
+  { value: "1", label: "BTC" },
+  { value: "2", label: "ETH" }
+];
 
 const CryptoAssets = () => {
-  const currency_sign = ["$", "Ƀ", "Ξ"]
-  const currency_letter = ["usd", "btc", "eth"]
-  const currency_upper_letter = ["USD", "BTC", "ETH"]
+  const currency_sign = ["$", "Ƀ", "Ξ"];
+  const currency_letter = ["usd", "btc", "eth"];
+  const currency_upper_letter = ["USD", "BTC", "ETH"];
 
-  const [coins, toCoins] = useState([])
-  const [currency, setCurrency] = useState("0")
-  const fetched = useAllCoins()
-  
-  useEffect(
-    () => {
-      toCoins(fetched)
-    },
-    [fetched]
-  )
+  const [coins, setCoins] = useState([]);
+  const [currency, setCurrency] = useState("0");
+  const fetched = useAllCoins();
+
+  useEffect(() => {
+    setCoins(fetched.filter(coin => coin.mc_rank));
+  }, [fetched]);
 
   // sort coins by mc_rank
-  coins.sort((a, b) => a.mc_rank - b.mc_rank)
+  coins.sort((first, second) => first.mc_rank - second.mc_rank);
 
   const coinColumns = [
     {
       Header: () => <CustomTableHeader title={"#"} />,
       accessor: "mc_rank",
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "40"
     },
     {
@@ -56,12 +61,14 @@ const CryptoAssets = () => {
       accessor: "market_cap_" + currency_letter[Number(currency)],
       Cell: row => (
         <span>
-          {currency == "0"
-            ? currency_sign[Number(currency)] + numberWithCommasDecimals(row.value)
-            : numberWithCommasDecimals(row.value) + currency_sign[Number(currency)]}
+          {currency === "0"
+            ? currency_sign[Number(currency)] +
+              numberWithCommasDecimals(row.value)
+            : numberWithCommasDecimals(row.value) +
+              currency_sign[Number(currency)]}
         </span>
       ),
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "8%"
     },
     {
@@ -69,12 +76,12 @@ const CryptoAssets = () => {
       accessor: "asset_price_" + currency_letter[currency],
       Cell: row => (
         <span>
-          {currency == "0"
+          {currency === "0"
             ? currency_sign[currency] + numberWithExpressive(row.value)
             : numberWithExpressive(row.value) + currency_sign[currency]}
         </span>
       ),
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "8%"
     },
     {
@@ -82,73 +89,91 @@ const CryptoAssets = () => {
       accessor: "volume_24_" + currency_letter[currency],
       Cell: row => (
         <span style={{ color: "blue" }}>
-          {currency == "0"
+          {currency === "0"
             ? currency_sign[currency] + numberWithCommasDecimals(row.value)
             : numberWithCommasDecimals(row.value) + currency_sign[currency]}
         </span>
       ),
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "8%"
     },
     {
-      Header: () => <CustomTableHeader title={"Supply Ratio (Current / Total) "} />,
+      Header: () => (
+        <CustomTableHeader title={"Supply Ratio (Current / Total) "} />
+      ),
       accessor: "supply_ratio",
       Cell: row => <span>{numberWithCommasDecimals(row.value, 2)}%</span>,
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "13%"
     },
     {
-      Header: () => <CustomTableHeader title={"ATH / ATL (" + currency_upper_letter[currency] + ") Position"} />,
+      Header: () => (
+        <CustomTableHeader
+          title={"ATH / ATL (" + currency_upper_letter[currency] + ") Position"}
+        />
+      ),
       accessor: "min_max_position_" + currency_letter[currency],
       Cell: row => <span>{numberWithCommasDecimals(row.value, 6)}</span>,
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "7%"
     },
     {
       Header: () => <CustomTableHeader title={"Buy / Sell Support 5%"} />,
       accessor: "buy_div_sell_5",
       Cell: row => <span>{numberWithCommasDecimals(row.value, 2)}%</span>,
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "8%"
     },
     {
       Header: () => <CustomTableHeader title={"Price Change (24h)"} />,
       accessor: "price_change_24_" + currency_letter[currency],
       Cell: row => (
-        <span style={{ color: numberWithCommasDecimals(row.value, 2) >= 0 ? "green" : "red" }}>
+        <span
+          style={{
+            color: numberWithCommasDecimals(row.value, 2) >= 0 ? "green" : "red"
+          }}
+        >
           {numberWithCommasDecimals(row.value, 2)}%
         </span>
       ),
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "6%"
     },
     {
       Header: () => <CustomTableHeader title={"Volume Change (24h)"} />,
       accessor: "volume_change_24_usd",
       Cell: row => (
-        <span style={{ color: numberWithCommasDecimals(row.value, 2) >= 0 ? "green" : "red" }}>
+        <span
+          style={{
+            color: numberWithCommasDecimals(row.value, 2) >= 0 ? "green" : "red"
+          }}
+        >
           {numberWithCommasDecimals(row.value, 2)}%
         </span>
       ),
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "6%"
     },
     {
       Header: () => <CustomTableHeader title={"Market Momentum (7d)"} />,
       accessor: "market_momentum",
-      Cell: row => <span style={{ fontWeight: "bold" }}>{numberWithCommasDecimals(row.value, 6)}</span>,
-      sortMethod: (a, b) => a - b,
+      Cell: row => (
+        <span style={{ fontWeight: "bold" }}>
+          {numberWithCommasDecimals(row.value, 6)}
+        </span>
+      ),
+      sortMethod: (first, second) => first - second,
       width: "8%"
     },
     {
       Header: () => <CustomTableHeader title={"Volatility (30d)"} />,
       accessor: "volatility_30_" + currency_letter[currency],
       Cell: row => <span>{numberWithCommasDecimals(row.value, 2)}</span>,
-      sortMethod: (a, b) => a - b,
+      sortMethod: (first, second) => first - second,
       width: "3%"
     }
-  ]
-  const changeCurrencyUnit = currency => setCurrency(currency.value)
+  ];
+  const changeCurrencyUnit = currency => setCurrency(currency.value);
 
   return (
     <Content
@@ -162,11 +187,27 @@ const CryptoAssets = () => {
     >
       {coins.length > 0 ? (
         <div>
-          <div className="row" style={{ width: "100%", display: "flex", padding: 0, margin: 0 }}>
-            <div className="col-sm-6 " style={{ textAlign: "left", width: "100%", padding: "0px" }}>
-              <span style={{ fontSize: "14pt" }}>Top selected crypto-assets by DTRA team</span>
+          <div
+            className="row"
+            style={{ width: "100%", display: "flex", padding: 0, margin: 0 }}
+          >
+            <div
+              className="col-sm-6 "
+              style={{ textAlign: "left", width: "100%", padding: "0px" }}
+            >
+              <span style={{ fontSize: "14pt" }}>
+                Top selected crypto-assets by DTRA team
+              </span>
             </div>
-            <div className="col-sm-6 " style={{ justifyContent: "flex-end", padding: 0, width: "100%", display: "flex" }}>
+            <div
+              className="col-sm-6 "
+              style={{
+                justifyContent: "flex-end",
+                padding: 0,
+                width: "100%",
+                display: "flex"
+              }}
+            >
               <Select
                 className="Selector"
                 value={currency.value}
@@ -196,7 +237,7 @@ const CryptoAssets = () => {
         </div>
       )}
     </Content>
-  )
-}
+  );
+};
 
-export default CryptoAssets
+export default CryptoAssets;

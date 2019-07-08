@@ -1,70 +1,72 @@
-import React, { useState, useEffect, useContext } from "react"
-import config from "config"
-import { Link, Redirect } from "react-router-dom"
-import { Icon, message } from "antd"
-import { getReceivedToken, removeReceivedToken } from '../../modules/Auth'
-import { AppContext } from '../../contexts/AppContext'
-import back from "../../static/back.png"
+import React, { useState, useEffect, useContext } from "react";
+import config from "config";
+import { Link, Redirect } from "react-router-dom";
+import { Icon, message } from "antd";
+import { getReceivedToken, removeReceivedToken } from "../../modules/Auth";
+import { AppContext } from "../../contexts/AppContext";
+import back from "../../static/back.png";
 
-const ResetPassword = () => {  
-  const { dispatch } = useContext(AppContext)
-  const recvToken = getReceivedToken()
-  const [submitted, setSubmit] = useState(false)  
-  const [password, setPassword] = useState("")
-  const [password1, setPassword1] = useState("")
-  const [success, setSuccess] = useState(false)  
+const ResetPassword = () => {
+  const { dispatch } = useContext(AppContext);
+  const receivedToken = getReceivedToken();
+  const [submitted, setSubmit] = useState(false);
+  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const handlePassword = e => {
-    if (e.target.value === "") {
-      message.warning("Password is required.")
+  const handlePassword = event => {
+    if (event.target.value === "") {
+      message.warning("Password is required.");
     }
-    setPassword(e.target.value)
-  }
-  const handlePassword1 = e => {
-    if (e.target.value === "") {
-      message.warning("Confirm Password is required.")
+    setPassword(event.target.value);
+  };
+  const handlePassword1 = event => {
+    if (event.target.value === "") {
+      message.warning("Confirm Password is required.");
     }
-    setPassword1(e.target.value)
-  }
-  const handleSubmit = e => {
-    e.preventDefault()
-    setSubmit(true)
-  }
+    setPassword1(event.target.value);
+  };
+  const handleSubmit = event => {
+    event.preventDefault();
+    setSubmit(true);
+  };
 
-  const checkSubmit = () => (password != "" && password ==password1 ? true : false)
+  const checkSubmit = () =>
+    password !== "" && password === password1 ? true : false;
 
   useEffect(() => {
-    if (!submitted) return
-    setSubmit(false)
+    if (!submitted) return;
+    setSubmit(false);
 
     if (checkSubmit()) {
-      const headers = new Headers()
-      headers.append("Content-Type", "application/json")
-      headers.append("accept", "application/json")
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("accept", "application/json");
 
       fetch(`${config.apiUrl}/auth/password/set`, {
         method: "POST",
         headers: headers,
-        body: JSON.stringify({ token: recvToken, password: password })
+        body: JSON.stringify({ token: receivedToken, password: password })
       })
         .then(response => response.json())
-        .then(data => {          
+        .then(data => {
           if (data.message !== "Auth failed") {
-            removeReceivedToken()
-            setSuccess(true)
-            message.success("Reset password process completed succesfully!")
-            dispatch({ type: 'CHANGE_RECVTOKEN', value: recvToken })
-            
+            removeReceivedToken();
+            setSuccess(true);
+            message.success("Reset password process completed succesfully!");
+            dispatch({ type: "CHANGE_RECEIVEDTOKEN", value: receivedToken });
           } else {
-            removeReceivedToken()
-            message.warning(data.message)
-            dispatch({ type: 'CHANGE_RECVTOKEN', value: recvToken })
+            removeReceivedToken();
+            message.warning(data.message);
+            dispatch({ type: "CHANGE_RECEIVEDTOKEN", value: receivedToken });
           }
-        })
+        });
     } else {
-      message.warning("Password is required! Password must be same as Confirm Password")
+      message.warning(
+        "Password is required! Password must be same as Confirm Password"
+      );
     }
-  }, [submitted])
+  }, [submitted]);
 
   return (
     <div
@@ -155,7 +157,7 @@ const ResetPassword = () => {
       </div>
       {success && <Redirect to="/login" />}
     </div>
-  )
-}
+  );
+};
 
-export default ResetPassword
+export default ResetPassword;

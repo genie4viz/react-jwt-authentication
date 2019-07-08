@@ -1,67 +1,71 @@
-import React, { useState, useEffect } from "react"
-import config from "config"
-import { Link, Redirect } from "react-router-dom"
-import { Icon, message } from "antd"
-import back from "../../static/back.png"
+import React, { useState, useEffect } from "react";
+import config from "config";
+import { Link, Redirect } from "react-router-dom";
+import { Icon, message } from "antd";
+import back from "../../static/back.png";
 
 const SignUp = props => {
-  const [submitted, setSubmit] = useState(false)
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [password1, setPassword1] = useState("")
-  const [success, setSuccess] = useState(false)
+  const [submitted, setSubmit] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [success, setSuccess] = useState(false);
 
-  const recvToken = new URLSearchParams(props.location.search).get("token")
+  const receivedToken = new URLSearchParams(props.location.search).get("token");
 
-  const handleFirstName = e => {
-    if (e.target.value === "") {
-      message.warning("First name is required.")
+  const handleFirstName = event => {
+    if (event.target.value === "") {
+      message.warning("First name is required.");
     }
-    setFirstName(e.target.value)
-  }
-  const handleLastName = e => {
-    if (e.target.value === "") {
-      message.warning("Last name is required.")
+    setFirstName(event.target.value);
+  };
+  const handleLastName = event => {
+    if (event.target.value === "") {
+      message.warning("Last name is required.");
     }
-    setLastName(e.target.value)
-  }
-  const handleEmail = e => {
-    if (e.target.value === "") {
-      message.warning("Email is required.")
+    setLastName(event.target.value);
+  };
+  const handleEmail = event => {
+    if (event.target.value === "") {
+      message.warning("Email is required.");
     }
-    setEmail(e.target.value)
-  }
-  const handlePassword = e => {
-    if (e.target.value === "") {
-      message.warning("Password is required.")
+    setEmail(event.target.value);
+  };
+  const handlePassword = event => {
+    if (event.target.value === "") {
+      message.warning("Password is required.");
     }
-    setPassword(e.target.value)
-  }
-  const handlePassword1 = e => {
-    if (e.target.value === "") {
-      message.warning("Confirm Password is required.")
+    setPassword(event.target.value);
+  };
+  const handlePassword1 = event => {
+    if (event.target.value === "") {
+      message.warning("Confirm Password is required.");
     }
-    setPassword1(e.target.value)
-  }
-  const handleSubmit = e => {
-    e.preventDefault()
-    setSubmit(true)
-  }
+    setPassword1(event.target.value);
+  };
+  const handleSubmit = event => {
+    event.preventDefault();
+    setSubmit(true);
+  };
 
   const checkSubmit = () =>
-    firstName != "" && lastName != "" && email != "" && password != "" && password ==password1
+    firstName !== "" &&
+    lastName !== "" &&
+    email !== "" &&
+    password !== "" &&
+    password === password1
       ? true
-      : false
+      : false;
 
   useEffect(() => {
-    if (!submitted) return
-    setSubmit(false)
+    if (!submitted) return;
+    setSubmit(false);
     if (checkSubmit()) {
-      const headers = new Headers()
-      headers.append("Content-Type", "application/json")
-      headers.append("accept", "application/json")
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("accept", "application/json");
 
       fetch(`${config.apiUrl}/auth/signup`, {
         method: "POST",
@@ -71,22 +75,24 @@ const SignUp = props => {
           last: lastName,
           email: email,
           password: password,
-          token: recvToken
+          token: receivedToken
         })
       })
         .then(response => response.json())
         .then(data => {
-          if (data.message == "User created") {
-            message.success("Registration process completed succesfully!")
-            setSuccess(true)
+          if (data.message === "User created") {
+            message.success("Registration process completed succesfully!");
+            setSuccess(true);
           } else {
-            message.warning(data.error)
+            message.warning(data.error);
           }
-        })
+        });
     } else {
-      message.warning("All fields are required and confirm/Password must be same as Confirm Password")
+      message.warning(
+        "All fields are required and confirm/Password must be same as Confirm Password"
+      );
     }
-  }, [submitted])
+  }, [submitted]);
 
   return (
     <div
@@ -235,7 +241,7 @@ const SignUp = props => {
       </div>
       {success && <Redirect to="/login" />}
     </div>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;

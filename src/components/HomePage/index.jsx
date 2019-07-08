@@ -1,30 +1,26 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Layout, Menu, Icon } from 'antd'
-import CustomHeader from '../CustomHeader'
-import logo from '../../static/main_logo.png'
-import './index.css'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Layout, Menu, Icon } from 'antd';
+import CustomHeader from '../CustomHeader';
+import logo from '../../static/main_logo.png';
+import './index.css';
 
-const { Sider, Content } = Layout
-const { SubMenu } = Menu
+const { Sider, Content } = Layout;
+const { SubMenu } = Menu;
 
 const HomePage = ({ renderProps, children }) => {
-  const routeInfo = renderProps.location.pathname.substring(1, renderProps.location.pathname.length)
-  const selectedMenuItem = routeInfo  
-  
+  const routeInfo = renderProps.location.pathname.substring(1, renderProps.location.pathname.length);
+  const selectedMenuItem = routeInfo;
+
   // const [sectionbyHeader, setSectionByHeader] = useState(null)
-  
+
   const onHeaderSectionClickHandler = section => {
-    console.log(section)
     // setSectionByHeader(section)
-  }
+  };
 
   return (
     <Layout>
-      <Sider
-        style={{ minHeight: '100vh', background: '#252525' }}
-        breakpoint='lg'
-      >
+      <Sider style={{ minHeight: '100vh', background: '#252525' }} breakpoint="lg">
         <div
           style={{
             color: 'white',
@@ -34,7 +30,7 @@ const HomePage = ({ renderProps, children }) => {
             textAlign: 'center'
           }}
         >
-          <Link to='/'>
+          <Link to="/">
             <img src={logo} style={{ width: '90%' }} />
           </Link>
         </div>
@@ -48,92 +44,92 @@ const HomePage = ({ renderProps, children }) => {
           }}
         />
         <Menu
-          theme='dark'
-          mode='inline'
+          theme="dark"
+          mode="inline"
           style={{ background: '#252525' }}
           defaultSelectedKeys={['markets_cryptoassets']}
           selectedKeys={[selectedMenuItem]}
-          defaultOpenKeys={['markets']}          
+          defaultOpenKeys={['markets']}
         >
           <SubMenu
-            key='markets'
+            key="markets"
             title={
               <span>
-                <Icon type='caret-right' />
+                <Icon type="caret-right" />
                 <span style={{ fontSize: '8pt' }}>MARKETS</span>
               </span>
             }
             style={{ height: '15px !important' }}
           >
-            <Menu.Item key='markets_cryptoassets' style={{ height: '15px !important' }}>
-              <Link to='/markets_cryptoassets'  />
+            <Menu.Item key="markets_cryptoassets" style={{ height: '15px !important' }}>
+              <Link to="/markets_cryptoassets" />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>ASSETS</span>
             </Menu.Item>
-            <Menu.Item key='markets_exchanges' style={{ height: '15px !important' }}>
-              <Link to='/markets_exchanges' />
+            <Menu.Item key="markets_exchanges" style={{ height: '15px !important' }}>
+              <Link to="/markets_exchanges" />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>EXCHANGES</span>
             </Menu.Item>
-            <Menu.Item key='markets_icoieos' disabled>
+            <Menu.Item key="markets_icoieos" disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>ICOS/IEOS</span>
             </Menu.Item>
-            <Menu.Item key='markets_stablecoins'>
-              <Link to='/markets_stablecoins' />
+            <Menu.Item key="markets_stablecoins">
+              <Link to="/markets_stablecoins" />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>STABLECOINS</span>
             </Menu.Item>
-            <Menu.Item key='markets_lbitcoins'>
-              <Link to='/markets_lbitcoins' />
+            <Menu.Item key="markets_lbitcoins">
+              <Link to="/markets_lbitcoins" />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>LOCALBITCOINS</span>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key='networks' disabled>
-            <Icon type='caret-right' />
+          <Menu.Item key="networks" disabled>
+            <Icon type="caret-right" />
             <span style={{ fontSize: '8pt' }}>NETWORKS</span>
           </Menu.Item>
           <SubMenu
-            key='labs'
+            key="labs"
             title={
               <span>
-                <Icon type='caret-right' />
+                <Icon type="caret-right" />
                 <span style={{ fontSize: '8pt' }}>LABS</span>
               </span>
             }
           >
-            <Menu.Item key='labs_comparison'>
-              <Link to='/labs_comparison' />
+            <Menu.Item key="labs_comparison">
+              <Link to="/labs_comparison" />
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
-              <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>              
+              <span style={{ fontSize: '8pt' }}>COMPARISON TOOL</span>
             </Menu.Item>
-            <Menu.Item key='labs_liquidity' disabled>
+            <Menu.Item key="labs_liquidity" disabled>
               <span style={{ fontSize: '8pt' }}>● </span>&nbsp;
               <span style={{ fontSize: '8pt' }}>LIQUIDITY</span>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key='projections' disabled>
-            <Icon type='caret-right' />
+          <Menu.Item key="projections" disabled>
+            <Icon type="caret-right" />
             <span style={{ fontSize: '8pt' }}>PROJECTIONS</span>
           </Menu.Item>
-          <Menu.Item key='alerts' disabled>
-            <Icon type='caret-right' />
+          <Menu.Item key="alerts" disabled>
+            <Icon type="caret-right" />
             <span style={{ fontSize: '8pt' }}>ALERTS</span>
           </Menu.Item>
-          <Menu.Item key='dictionary'>
-            <Link to='/dictionary' />
-            <Icon type='caret-right' />
+          <Menu.Item key="dictionary">
+            <Link to="/dictionary" />
+            <Icon type="caret-right" />
             <span style={{ fontSize: '8pt' }}>DICTIONARY</span>
           </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
-        <CustomHeader onHeaderSectionClick={onHeaderSectionClickHandler}/>
+        <CustomHeader onHeaderSectionClick={onHeaderSectionClickHandler} />
         <Content>{children}</Content>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

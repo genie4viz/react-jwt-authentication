@@ -23,8 +23,7 @@ export function authRefresh(repeater) {
       ...repeater.opts,
       headers: authHeader()
     }).then(response => response.json())
-  }).catch(err => {
-    console.log(err)
+  }).catch(err => {    
     return { error: 500 }
   })
 }

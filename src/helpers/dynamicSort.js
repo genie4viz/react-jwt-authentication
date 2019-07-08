@@ -4,11 +4,11 @@ export const dynamicSort = (property) => {
     sortOrder = -1
     property = property.substr(1)
   }
-  return function (a,b) {
-    if(sortOrder == -1) {
-      return b[property].localeCompare(a[property])
+  return function (prev, next) {
+    if(sortOrder === -1) {
+      return next[property].localeCompare(prev[property])
     } else {
-      return a[property].localeCompare(b[property])
+      return prev[property].localeCompare(next[property])
     }        
   }
 }
