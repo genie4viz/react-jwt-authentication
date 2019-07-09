@@ -50,14 +50,10 @@ export const authenticateUser = (userData, email) => {
 export const isUserAuthenticated = () => {
   const userInfo = localStorage.getItem('user');  
   if (userInfo === null) return false;
-  try {    
-    if (
-      userInfo &&
-      Number.parseInt(new Date().getTime() / 1000) -
-        jwtDecode(JSON.parse(userInfo).accessToken).exp <
-        0
-    ) {
-      return true
+  try { 
+    const { exp } = jwtDecode(JSON.parse(userInfo).accessToken);    
+    if (Date.now() < exp * 1000){
+      return true;
     }
   } catch (err) {    
     const user = JSON.parse(userInfo);    
