@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import config from 'config';
+import axios from 'axios';
 import { Layout } from 'antd';
 import ReactTable from 'react-table';
 import CustomTableHeader from '../CustomTableHeader';
-import { useListCoins } from '../../utils';
+import { useListCoins, authHeader, authRefresh, dynamicSort } from '../../utils';
 import Img from 'react-image';
 import { GROUPED_DEFAULT_FIELDS, GROUPED_TOTAL_FIELDS, FULL_COLUMNS } from '../../constants';
-import { authHeader, authRefresh, dynamicSort } from '../../helpers';
 import { TokenChecker } from './TokenChecker';
 import { FieldChecker } from './FieldChecker';
 import loading from '../../static/loading.gif';
@@ -176,25 +176,26 @@ const Comparison = React.memo(() => {
     if (sleep) clearTimeout(sleep);
     setSleep(
       setTimeout(() => {
-        const formatted = checkStateOfToken.filter(eachState => eachState.checked).map(coin => coin.coin_id);
-        const uri = `${config.apiUrl}/get_assets_params`;
-        const options = {
-          method: 'POST',
+        const formatted = checkStateOfToken.filter(eachState => eachState.checked).map(coin => coin.coin_id);        
+        const url = `${config.apiUrl}/get_assets_params`;        
+        axios({
+          method: 'post',
+          url: url,
           headers: authHeader(),
-          body: JSON.stringify({ assets: formatted })
-        };
-        fetch(uri, options)
-          .then(response => {
-            if (response.ok) return response.json();
-            return authRefresh({ uri: uri, opts: options });
-          })
-          .then(data => {
-            data.map(coin => {
+          data: {
+            assets: formatted
+          }
+        })
+          .then(response => {            
+            response.data.map(coin => {
               coin.img_url = 'https://cryptocompare.com' + coin.img_url;
               return coin;
             });
-            setCompare(data.filter(coin => coin.mc_rank));
+            setCompare(response.data.filter(coin => coin.mc_rank));
             setLoadingContent(false);
+          })
+          .catch(err => {
+            authRefresh(url);
           });
       }, 500)
     );

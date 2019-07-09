@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from 'axios';
 import config from "config";
 import { Link, Redirect } from "react-router-dom";
 import { Icon, message } from "antd";
-import { getReceivedToken, removeReceivedToken } from "../../modules/Auth";
+import { getReceivedToken, removeReceivedToken } from "../../utils";
 import { AppContext } from "../../contexts/AppContext";
 import back from "../../static/back.png";
 
@@ -38,19 +39,21 @@ const ResetPassword = () => {
     if (!submitted) return;
     setSubmit(false);
 
-    if (checkSubmit()) {
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("accept", "application/json");
-
-      fetch(`${config.apiUrl}/auth/password/set`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({ token: receivedToken, password: password })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.message !== "Auth failed") {
+    if (checkSubmit()) {      
+      axios({
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        },
+        url: `${config.apiUrl}/auth/password/set`,        
+        data: {
+          token: receivedToken,
+          password: password
+        }        
+      })        
+        .then(response => {          
+          if (response.data.message !== "Auth failed") {
             removeReceivedToken();
             setSuccess(true);
             message.success("Reset password process completed succesfully!");

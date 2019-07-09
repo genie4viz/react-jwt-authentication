@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import { loadReCaptcha, ReCaptcha } from "react-recaptcha-google";
+import { deauthenticateUser } from "../../utils"
 import config from "config";
 import { Link, Redirect } from "react-router-dom";
 import { Icon, message } from "antd";
@@ -26,7 +28,7 @@ const ForgotPassword = () => {
   loadReCaptcha();
 
   useEffect(() => {
-    localStorage.removeItem("user");
+    deauthenticateUser()
   }, []);
 
   const checkSubmit = () => (email !== "" ? true : false);
@@ -38,16 +40,17 @@ const ForgotPassword = () => {
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("accept", "application/json");
-      fetch(`${config.apiUrl}/auth/password/reset`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({ email: email })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.message !== "Auth failed") {
+      axios({
+        method: 'post',
+        url: `${config.apiUrl}/auth/password/reset`,
+        data: {
+          email: email
+        }        
+      })        
+        .then(response => {          
+          if (response.data.message !== "Auth failed") {
             setSuccess(true);
-            message.success(data.message);
+            message.success(response.data.message);
           } else {
             message.warning("Wrong email and/or password!");
           }

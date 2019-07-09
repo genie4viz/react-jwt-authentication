@@ -1,24 +1,19 @@
 import { useState, useEffect } from 'react';
 import config from 'config';
-import { authHeader, authRefresh } from '../helpers';
+import axios from 'axios';
+import { authHeader, authRefresh } from '../utils';
 
 export const useLocalCoins = () => {
   const [coins, setCoins] = useState([]);
 
   useEffect(() => {
-    const uri = `${config.apiUrl}/get_localbitcoin`;
-    const options = {
-      method: 'GET',
+    const url = `${config.apiUrl}/get_localbitcoin`;    
+    axios({
+      url: url,
       headers: authHeader()
-    };
-    fetch(uri, options)
+    })
       .then(response => {
-        if (response.ok) return response.json();
-        else authRefresh({ uri: uri, opts: options });
-      })
-      .then(data => {
-        if (data.error) return;
-        const formatted = data.map(coin => {
+        const formatted = response.data.map(coin => {
           const link = coin.lb_img_url;
           delete coin.img_url;
           return {
@@ -26,7 +21,10 @@ export const useLocalCoins = () => {
             img_url: link
           };
         });
-        setCoins(formatted);
+        setCoins(formatted);                
+      })
+      .catch(err => {
+        authRefresh(url);
       });
   }, []);
 

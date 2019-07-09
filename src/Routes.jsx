@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import HomePage from './components/HomePage';
@@ -12,8 +12,7 @@ import Dictionary from './components/Dictionary';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 
-import { isUserAuthenticated, setReceivedToken, getReceivedToken } from './modules/Auth';
-import { AppContext } from './contexts/AppContext';
+import { isUserAuthenticated, setReceivedToken, getReceivedToken } from './utils';
 import favicon from './static/fav.png';
 
 const changeFavicon = src => {

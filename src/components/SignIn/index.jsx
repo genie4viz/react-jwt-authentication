@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Checkbox, message } from 'antd';
 import config from 'config';
 import { Link, Redirect } from 'react-router-dom';
-import { authenticateUser, deauthenticateUser } from '../../modules/Auth';
+import { authenticateUser, deauthenticateUser } from '../../utils';
 import back from '../../static/back.png';
 import logo from '../../static/logo_beta_6.svg';
 
@@ -26,26 +27,24 @@ const SignIn = () => {
     setPassword(event.target.value);
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     if (!submitted) return;
-    setSubmitted(false);
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('accept', 'application/json');
-    fetch(`${config.apiUrl}/auth/login`, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify({ email: email, password: password })
+    setSubmitted(false);    
+    axios({
+      method: 'post',
+      url: `${config.apiUrl}/auth/login`,
+      data: {
+        email: email,
+        password: password  
+      }
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message === 'Auth successful') {
-          authenticateUser(data, email);
-          setSuccess(true);
-        } else {
-          message.warning('Wrong email and/or password!');
-        }
-      });
+    .then((response) => {      
+      authenticateUser(response.data, email);
+      setSuccess(true);      
+    })
+    .catch((err) => {
+      message.warning('Wrong email and/or password!');      
+    });
   }, [submitted]);
   return (
     <div className="custom" style={{ height: '100vh', width: '100vw', position: 'relative' }}>

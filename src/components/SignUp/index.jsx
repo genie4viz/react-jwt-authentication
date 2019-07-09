@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import config from "config";
 import { Link, Redirect } from "react-router-dom";
 import { Icon, message } from "antd";
@@ -63,28 +64,23 @@ const SignUp = props => {
     if (!submitted) return;
     setSubmit(false);
     if (checkSubmit()) {
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("accept", "application/json");
-
-      fetch(`${config.apiUrl}/auth/signup`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify({
+      axios({
+        method: 'post',
+        url: `${config.apiUrl}/auth/signup`,
+        data: {
           first: firstName,
           last: lastName,
           email: email,
           password: password,
           token: receivedToken
-        })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.message === "User created") {
+        }
+      })        
+        .then(response => {
+          if (response.data.message === "User created") {
             message.success("Registration process completed succesfully!");
             setSuccess(true);
           } else {
-            message.warning(data.error);
+            message.warning(response.data.error);
           }
         });
     } else {

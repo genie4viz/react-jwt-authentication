@@ -12,10 +12,7 @@ const HomePage = ({ renderProps, children }) => {
   const routeInfo = renderProps.location.pathname.substring(1, renderProps.location.pathname.length);
   const selectedMenuItem = routeInfo;
 
-  // const [sectionbyHeader, setSectionByHeader] = useState(null)
-
-  const onHeaderSectionClickHandler = section => {
-    // setSectionByHeader(section)
+  const onHeaderSectionClickHandler = section => {    
   };
 
   return (

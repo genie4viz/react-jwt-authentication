@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 // common custom components
 import { Layout } from 'antd';
 // custom hook
-import { useLocalCoins, numberWithCommasDecimals, removeSymbol } from '../../utils';
-import { numbericSort } from '../../helpers';
+import { useLocalCoins, numberWithCommasDecimals, removeSymbol, numbericSort } from '../../utils';
 // react-table
 import ReactTable from 'react-table';
 import CustomTableHeader from '../CustomTableHeader';

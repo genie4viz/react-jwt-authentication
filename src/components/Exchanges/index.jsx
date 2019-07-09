@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from 'antd';
-import { useExchanges, numberWithCommasDecimals } from '../../utils';
+import { numbericSort, useExchanges, numberWithCommasDecimals } from '../../utils';
 import ReactTable from 'react-table';
 import CustomTableHeader from '../CustomTableHeader';
 import Img from 'react-image';
-import { numbericSort } from '../../helpers';
 import loading from '../../static/loading.gif';
 import './index.css';
 
