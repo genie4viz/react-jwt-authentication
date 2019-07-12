@@ -38,7 +38,8 @@ const SignIn = () => {
         password: password  
       }
     })
-    .then((response) => {      
+    .then((response) => {
+      console.log(response, 'for login')
       authenticateUser(response.data, email);
       setSuccess(true);      
     })

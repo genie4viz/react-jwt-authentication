@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 import HomePage from './components/HomePage';
@@ -12,7 +12,7 @@ import Dictionary from './components/Dictionary';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 
-import { isUserAuthenticated, setReceivedToken, getReceivedToken } from './utils';
+import { setReceivedToken, getReceivedToken } from './utils';
 import favicon from './static/fav.png';
 
 const changeFavicon = src => {
@@ -29,8 +29,14 @@ const changeFavicon = src => {
 };
 
 const Routes = () => {
-  const receivedToken = new URLSearchParams(location.search).get('token');
-  setReceivedToken(receivedToken && receivedToken !== 'unused' ? receivedToken : 'unused');
+  const [_, setStateReceived] = useState('unused');
+  const receivedToken = new URLSearchParams(location.search).get('token');  
+  setReceivedToken(receivedToken && receivedToken !== 'unused' ? receivedToken : 'unused');  
+  useEffect(() => {
+    setStateReceived(receivedToken);
+  }, [receivedToken])
+  
+  
   changeFavicon(favicon);
 
   return (
@@ -43,23 +49,19 @@ const Routes = () => {
         <Route
           path="/"
           render={renderProps =>
-            isUserAuthenticated() ? (
-              <HomePage renderProps={renderProps}>
-                <div>
-                  <Switch>
-                    <Route path="/markets_cryptoassets" component={CryptoAssets} />
-                    <Route path="/markets_exchanges" component={Exchanges} />
-                    <Route path="/markets_stablecoins" component={StableCoins} />
-                    <Route path="/markets_lbitcoins" component={LbitCoins} />
-                    <Route path="/labs_comparison" component={Comparison} />
-                    <Route path="/dictionary" component={Dictionary} />
-                    <Redirect to="/markets_cryptoassets" />
-                  </Switch>
-                </div>
-              </HomePage>
-            ) : (
-              <Redirect to="/login" />
-            )
+            <HomePage renderProps={renderProps}>
+              <div>
+                <Switch>
+                  <Route path="/markets_cryptoassets" component={CryptoAssets} />
+                  <Route path="/markets_exchanges" component={Exchanges} />
+                  <Route path="/markets_stablecoins" component={StableCoins} />
+                  <Route path="/markets_lbitcoins" component={LbitCoins} />
+                  <Route path="/labs_comparison" component={Comparison} />
+                  <Route path="/dictionary" component={Dictionary} />
+                  <Redirect to="/markets_cryptoassets" />
+                </Switch>
+              </div>
+            </HomePage>            
           }
         />
       </Switch>

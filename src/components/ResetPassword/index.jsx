@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import config from "config";
 import { Link, Redirect } from "react-router-dom";
 import { Icon, message } from "antd";
 import { getReceivedToken, removeReceivedToken } from "../../utils";
-import { AppContext } from "../../contexts/AppContext";
 import back from "../../static/back.png";
 
-const ResetPassword = () => {
-  const { dispatch } = useContext(AppContext);
+const ResetPassword = () => {  
   const receivedToken = getReceivedToken();
   const [submitted, setSubmit] = useState(false);
   const [password, setPassword] = useState("");
@@ -56,12 +54,10 @@ const ResetPassword = () => {
           if (response.data.message !== "Auth failed") {
             removeReceivedToken();
             setSuccess(true);
-            message.success("Reset password process completed succesfully!");
-            dispatch({ type: "CHANGE_RECEIVEDTOKEN", value: receivedToken });
+            message.success("Reset password process completed succesfully!");            
           } else {
             removeReceivedToken();
-            message.warning(data.message);
-            dispatch({ type: "CHANGE_RECEIVEDTOKEN", value: receivedToken });
+            message.warning(data.message);            
           }
         });
     } else {
