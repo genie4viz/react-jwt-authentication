@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Routes from './Routes';
+import Routes from './components/Routes';
 
 ReactDOM.render(  
-  <Routes />,  
-  document.getElementById('app')
+  <Routes />,  document.getElementById('app')
 );
